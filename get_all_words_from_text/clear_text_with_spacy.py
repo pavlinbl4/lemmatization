@@ -5,6 +5,9 @@ import re
 import pyperclip
 import spacy
 from colorama import Fore
+from add_word_to_txt import add_word_to_txt
+from pathlib import Path
+from read_txt_file import read_words_file
 
 
 def read_easy_words_file():
@@ -36,21 +39,23 @@ def clear_words_collection(lemmatised_set: set) -> list:
             cleared_words.append(word)
     return cleared_words
 
-def write_word_to_file(input_data:str):
-    with open('get_all_words_from_text/easy_words.txt', 'a') as text_file:
-        text_file.write(f'{input_data}\n')
+
+# def write_word_to_file(input_data: str):
+#     with open('get_all_words_from_text/easy_words.txt', 'a') as text_file:
+#         text_file.write(f'{input_data}\n')
 
 
 def add_word_to_file(input_data):
     print(f"{Fore.BLUE}{input_data}{Fore.RESET}\nwill be ignore in future")
-    write_word_to_file(input_data)
-    # return input_data
+    add_word_to_txt(input_data, easy_words_txt_file)
 
 
 def make_choice(word):
+    os.system('clear')
     pyperclip.copy(word)
-    choice = input(f"\nIs word {Fore.GREEN}{word}{Fore.RESET} easy or you want ignore it?\n{Fore.RED}Press Y{Fore.RESET} or "
-                   f"{Fore.RED}Press N{Fore.RESET}\n")
+    choice = input(
+        f"\nIs word {Fore.GREEN}{word}{Fore.RESET} easy or you want ignore it?\n{Fore.RED}Press Y{Fore.RESET} or "
+        f"{Fore.RED}Press N{Fore.RESET}\n")
 
     while choice.lower() != 'y' and choice.lower() != 'n':
         choice = input(f"{Fore.GREEN}Please print{Fore.RESET}\n{Fore.RED}Y - to continue{Fore.RESET}\n"
@@ -62,21 +67,26 @@ def make_choice(word):
         print(f'{Fore.GREEN} Lets go to next word{Fore.RESET}')
 
 
-
-def add_easy_word_to_ignore(clear_words:set,word_len:int):
+def add_easy_word_to_ignore(clear_words, word_len: int):
     for _ in clear_words:
         if len(_) == word_len:
             make_choice(_)
 
 
-
 if __name__ == '__main__':
+    easy_words_txt_file = 'get_all_words_from_text/easy_words.txt'
+    words_to_learn = 'get_all_words_from_text/words_to_learn.txt'
     path_to_file = '/Volumes/big4photo/Downloads/Lamb to the Slaughter.txt'
-    # print(read_easy_words_file())
-    words_from_text = extract_word_from_text_file(path_to_file)
-    print(f'words in text = {len(words_from_text)}')
-    clear_words = clear_words_collection(words_from_text)
-    print(f'words after removing trash = {len(clear_words)}')
-    word_len = 5
-    add_easy_word_to_ignore(clear_words, word_len)
 
+    if Path(words_to_learn).exists():
+        print('read words from file')
+    else:
+        words_from_text = extract_word_from_text_file(path_to_file)
+        print(f'words in text = {len(words_from_text)}')
+        clear_words = clear_words_collection(words_from_text)
+        for _ in clear_words:
+            add_word_to_txt(_, words_to_learn)
+        # i want to save cleared words for future optimisation  !!!!
+        print(f'words after removing trash = {len(clear_words)}')
+        word_len = 6
+    add_easy_word_to_ignore(clear_words, word_len)
