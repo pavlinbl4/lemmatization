@@ -17,8 +17,6 @@ if __name__ == '__main__':
         lemma_words = lemma_word_from_text_file(path_to_book_file)  # get lemma words from book
         for word in lemma_words:
             add_word_to_txt(word, f'words_to_learn_file-{book_title}')  # save this collection for future use
-        #  and save words in file words_to_learn-book_title.txt
-    # create list of all words from  words_to_learn-book_title.txt
     all_words = read_words_file(f'words_to_learn_file-{book_title}')  # all words in the  book
     all_words_count = len(all_words)
     print(f'{all_words_count = }')
@@ -41,8 +39,3 @@ if __name__ == '__main__':
     print(f'{all_words_count - len(all_words)} easy words added')
 
 
-
-    # test words from list of all words ( may be by some len or by some number
-    # and write easy words to txt file and save it to list
-    # after all remove easy words from list of all words
-    # overwrite file with list of all words
