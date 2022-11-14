@@ -8,7 +8,7 @@ from get_all_words_from_text.use_txt_file import add_word_to_txt
 def make_choice(cleared_words,random_index):
     word = cleared_words[random_index]
     # os.system('clear')
-    print(f'{Fore.GREEN} Lets go to next word{Fore.RESET}')
+    # print(f'{Fore.GREEN} Lets go to next word{Fore.RESET}')
     choice = input(
         f"\nIs word {Fore.GREEN}{word}{Fore.RESET} easy or you want ignore it?\n{Fore.RED}Press Y{Fore.RESET} or "
         f"{Fore.RED}Press N{Fore.RESET}\n")
@@ -29,10 +29,16 @@ def make_choice(cleared_words,random_index):
 
 
 def some_random_words(cleared_words, value_to_test):  # test "value_to_test" words from list - are you know them?
-    for _ in range(value_to_test):
+    used_indexes = []
+    counter = 1
+    while counter <= value_to_test:
         random_index = random.randint(0, len(cleared_words)-1)
-        make_choice(cleared_words,random_index)
+        if random_index not in used_indexes:
+            used_indexes.append(random_index)
+            counter += 1
+            make_choice(cleared_words,random_index)
+
 
 
 if __name__ == '__main__':
-    some_random_words(['sdff', 'fox', 'dog', 'box', 'glass'], 3)
+    some_random_words(['sdff', 'fox', 'dog', 'box', 'glass','432','44444','erg', 'regfwe', 'etege'], 15)
