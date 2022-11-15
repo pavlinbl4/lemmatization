@@ -17,8 +17,9 @@ def add_word_to_txt(input_data, path_to_txt: str):
 
 def write_list_and_replace(input_list:list, path_to_txt):
     with open(path_to_txt,'w') as over_writen_txt:
-        for _ in input_list:
-            over_writen_txt.write(f'{_.strip()}\n')
+        if len(_) > 2:
+            for _ in input_list:
+                over_writen_txt.write(f'{_.strip()}\n')
 
 
 if __name__ == '__main__':
