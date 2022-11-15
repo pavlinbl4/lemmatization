@@ -6,36 +6,60 @@ from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_tx
 from lemmatize_book import lemma_word_from_text_file
 from pathlib import Path
 
-if __name__ == '__main__':
-    path_to_book_file = '/Volumes/big4photo/Downloads/Lamb to the Slaughter.txt'
-    book_title = file_name_with_ext(path_to_book_file)  # get title of the book
+
+def create_words_to_learn_or_skip(book_title):
     if Path(f'words_to_learn_file-{book_title}').exists():  # check existing of the file words_to_learn-book_title.txt
         # if no such file get lemma words from book if  words_to_learn-book_title.txt exist go to line
         print("use words from file")
-
     else:
         lemma_words = lemma_word_from_text_file(path_to_book_file)  # get lemma words from book
         for word in lemma_words:
             add_word_to_txt(word, f'words_to_learn_file-{book_title}')  # save this collection for future use
-    all_words = read_words_file(f'words_to_learn_file-{book_title}')  # all words in the  book
-    all_words_count = len(all_words)
-    print(f'{all_words_count = }')
+
+
+def main():
+    book_title = file_name_with_ext(path_to_book_file)  # get title of the book
+    create_words_to_learn_or_skip(book_title)  # make lemmatization of text or skip it
+
+
+
     # check existing of the file easy_words.txt and create it if NO
     create_file_if_no('easy_words.txt')
-    easy_word = read_words_file('easy_words.txt')
-    easy_word_count = len(easy_word)
-    print(f'{easy_word_count =}')
+    easy_word = read_words_file('easy_words.txt')  # all known words
+    easy_word_count = len(easy_word)  # number of easy words
+    print(f'{easy_word_count = }')
     # clear list of all words from words with two letters and words from easy_words_list
-    cleared_words = remove_easy_words(all_words, easy_word)
+    # all_words = read_words_file(f'words_to_learn_file-{book_title}')
+    # all_words_count = len(all_words)  # number words before optimization
+    # print(f'start test with {all_words_count = }')
+
+
+
+
+
+
+    all_words = read_words_file(f'words_to_learn_file-{book_title}')
+    all_words_count = len(all_words)  # number words before optimization
+    print(f'continue test with {all_words_count = }')
+    some_random_words(all_words, 10)
+
+    cleared_words = remove_easy_words(all_words, easy_word)  # !!!!! I think this function must run only once ????
     print(f"{len(cleared_words) = }")
 
     write_list_and_replace(cleared_words,
-                           f'words_to_learn_file-{book_title}')  # overwrire words_to_learn file with clear words
+                           f'words_to_learn_file-{book_title}')  # overwriеe words_to_learn file with clear words
     cleared_words.clear()  # clear list for future work
 
-    all_words = read_words_file(f'words_to_learn_file-{book_title}')
-    some_random_words(all_words, 10)
-    print(f'{all_words_count = }')
-    print(f'{all_words_count - len(all_words)} easy words added')
 
 
+
+if __name__ == '__main__':
+    # path_to_book_file = "/Volumes/big4photo/Documents/ANKI/james blunt you're beautiful.txt"
+    # path_to_book_file = '/Volumes/big4photo/Documents/ANKI/ God Was Never on Your Side Motörhead .txt'
+    # path_to_book_file = '/Volumes/big4photo/Documents/ANKI/A Word in Spanish Song by Elton John.txt'
+    # path_to_book_file = '/Volumes/big4photo/Documents/ANKI/Sting.txt'
+    # path_to_book_file = '/Volumes/big4photo/Documents/ANKI/The Three Little Pigs.txt'
+    # path_to_book_file = '/Volumes/big4photo/Downloads/Lamb to the Slaughter.txt'
+    # path_to_book_file = '/Volumes/big4photo/Documents/ANKI/The Pig.txt'
+    path_to_book_file = '/Volumes/big4photo/Documents/ANKI/Perfect Strangers.txt'
+    main()
