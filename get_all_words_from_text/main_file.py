@@ -28,10 +28,7 @@ def main():
     easy_word = read_words_file('easy_words.txt')  # all known words
     easy_word_count = len(easy_word)  # number of easy words
     print(f'{easy_word_count = }')
-    # clear list of all words from words with two letters and words from easy_words_list
-    # all_words = read_words_file(f'words_to_learn_file-{book_title}')
-    # all_words_count = len(all_words)  # number words before optimization
-    # print(f'start test with {all_words_count = }')
+
 
 
 
@@ -40,15 +37,18 @@ def main():
 
     all_words = read_words_file(f'words_to_learn_file-{book_title}')
     all_words_count = len(all_words)  # number words before optimization
-    print(f'continue test with {all_words_count = }')
-    some_random_words(all_words, 10)
+    if all_words_count == 0:
+        print("NO UNKNOWN WORDS IN TEXT")
+    else:
+        print(f'continue test with {all_words_count = }')
+        some_random_words(all_words, 5)
 
-    cleared_words = remove_easy_words(all_words, easy_word)  # !!!!! I think this function must run only once ????
-    print(f"{len(cleared_words) = }")
+        cleared_words = remove_easy_words(all_words, easy_word)  # !!!!! I think this function must run only once ????
+        print(f"{len(cleared_words) = }")
 
-    write_list_and_replace(cleared_words,
-                           f'words_to_learn_file-{book_title}')  # overwriеe words_to_learn file with clear words
-    cleared_words.clear()  # clear list for future work
+        write_list_and_replace(cleared_words,
+                               f'words_to_learn_file-{book_title}')  # overwriеe words_to_learn file with clear words
+        cleared_words.clear()  # clear list for future work
 
 
 
