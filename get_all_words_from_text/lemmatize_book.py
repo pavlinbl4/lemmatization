@@ -21,7 +21,9 @@ def lemma_word_from_text_file(path_to_file: str) -> set:
     lemmatized_sentence_all = set()
     with open(path_to_file, 'r') as text:
         for line in text:
+            # remove digits
             words = only_words_lowercase(line)
+
             doc = nlp(words.strip())
             lemmatized_sentence = {token.lemma_ for token in doc}
             lemmatized_sentence_all.update(lemmatized_sentence)
