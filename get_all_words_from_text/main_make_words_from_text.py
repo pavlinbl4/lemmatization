@@ -10,7 +10,6 @@ from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_tx
     write_list_and_replace
 from lemmatize_book import lemma_word_from_text_file
 from pathlib import Path
-from icecream import ic
 
 
 def create_words_to_learn_or_skip(book_title, path_to_book_file):
@@ -54,7 +53,6 @@ def main():
     print(f'{easy_word_count = }')
 
     all_words = read_words_file(path_to_words_file)
-    all_words_count = len(all_words)  # number words before optimization
 
     # remove easy words from file
     cleared_words = remove_easy_words(all_words, easy_word)
