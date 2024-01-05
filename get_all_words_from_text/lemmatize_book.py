@@ -1,7 +1,15 @@
 # lemmatize text and create collection with words
 
+"""
+to install spacy
+pip install -U pip setuptools wheel
+pip install -U spacy
+python3 -m spacy download en_core_web_sm
+"""
+
 import spacy
 import re
+from pathlib import Path
 
 
 def only_words_lowercase(line: str) -> str:
@@ -21,7 +29,7 @@ def lemma_word_from_text_file(path_to_file: str) -> set:
 
 
 if __name__ == '__main__':
-    path_to_book_file = '/Volumes/big4photo/Downloads/Lamb to the Slaughter.txt'
+    path_to_book_file = f'{Path().home()}/Documents/ANKI/TEXTS/Full Dark, No Stars - FAIR EXTENSION.txt'
     print(len(lemma_word_from_text_file(path_to_book_file)))
     for index, word in enumerate(lemma_word_from_text_file(path_to_book_file)):
         if index < 3:
