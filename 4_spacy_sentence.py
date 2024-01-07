@@ -4,8 +4,11 @@ from collections import Counter
 from pathlib import Path
 
 from get_all_words_from_text.clear_list_of_words import remove_easy_words
-from get_all_words_from_text.remove_double_words_from_txt_file import main_remove_doubles_in_easy_word
-from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_txt, write_list_and_replace
+from get_all_words_from_text.file_name_from_path import file_name_with_ext
+from get_all_words_from_text.main_make_words_from_text import create_words_to_learn_or_skip, select_file
+from get_all_words_from_text.remove_double_words_from_txt_file import main_remove_doubles_words_in_txt_file
+from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_txt, write_list_and_replace, \
+    create_file_if_no
 
 
 def get_sentence_from_text(path_to_text_file: str):
@@ -51,9 +54,21 @@ def get_persons_from_text(path_to_text_file):
             output_file.write(person + '\n')
 
 
-def experiment(path_to_text_file):
+def new_spacy_lemma(path_to_book_file):
+    # select text file from gui
+    path_to_book_file = select_file()
+    # path_to_book_file = '/Users/evgenii/Documents/ANKI/TEXTS/Full Dark, No Stars - FAIR EXTENSION.txt'
+
+    # get title of the book
+    book_title = file_name_with_ext(path_to_book_file)
+    print(f'{book_title = }')
+
+    # check existing of the file easy_words.txt and create it if NO
+    create_file_if_no(f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt')
+    easy_words_path_to_txt = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
+
     # read text file
-    with open(path_to_text_file, 'r') as txt:
+    with open(path_to_book_file, 'r') as txt:
         text = txt.read()
 
     # create doc object
@@ -64,7 +79,6 @@ def experiment(path_to_text_file):
     ent_set = set([ent.text for ent in doc.ents])
 
     # load list of easy words from txt file
-    easy_words_path_to_txt = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
     easy_words = read_words_file(easy_words_path_to_txt)
 
 
@@ -77,7 +91,7 @@ def experiment(path_to_text_file):
              and len(token.text) > 2
              and len(token.lemma_) > 2]
 
-    # strange but easy words are still in list - remove them agaim
+    # strange but easy words are still in list - remove them again
     words = remove_easy_words(words, easy_words)
 
     # add often words to easy words text file
@@ -86,7 +100,10 @@ def experiment(path_to_text_file):
     #         print(word)
     #         add_word_to_txt(word, easy_words_path_to_txt)
 
+
+    # may be this bloke not useful
     k = 10
+    founded_words = []
     while len([word for word, count in Counter(words).items() if count > k]) == 0 and k > 2:
         founded_words = ([word for word, count in Counter(words).items() if count > k])
         k -= 1
@@ -103,7 +120,7 @@ def experiment(path_to_text_file):
     easy_words_path_to_txt = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
     easy_words = read_words_file(easy_words_path_to_txt)
 
-    main_remove_doubles_in_easy_word(easy_words_path_to_txt)
+    main_remove_doubles_words_in_txt_file(easy_words_path_to_txt)
 
     words = remove_easy_words(words, easy_words)
 
@@ -111,8 +128,11 @@ def experiment(path_to_text_file):
     cleared_words_list = set(words)
     # ic(Counter(optimised_words))
 
+    # make lemmatization from text or skip it
+    path_to_words_file = create_words_to_learn_or_skip(book_title, path_to_book_file)
+
     # write_list_and_replace(cleared_words_list, all_words)
-    write_list_and_replace(cleared_words_list, '/Users/evgenii/Documents/ANKI/TEXTS/words_to_learn_file-Full Dark, No Stars - FAIR EXTENSION.txt')
+    write_list_and_replace(cleared_words_list, path_to_words_file)
 
 
 
@@ -157,6 +177,6 @@ if __name__ == '__main__':
     # save persons from text to file
     # get_persons_from_text(_path_to_text_file)
 
-    experiment(_path_to_text_file)
+    new_spacy_lemma(_path_to_text_file)
 
     # find_all_ents(_path_to_text_file)
