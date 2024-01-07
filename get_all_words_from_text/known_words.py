@@ -1,4 +1,4 @@
-# script to find known words in words  file and remove them to easy words file
+# script to find known words in words file and remove them to easy words file
 
 
 import random
@@ -7,7 +7,7 @@ from colorama import Fore
 from icecream import ic
 
 from get_all_words_from_text.clear_list_of_words import remove_easy_words
-from get_all_words_from_text.remove_double_words_from_txt_file import main_remove_doubles_in_easy_word
+from get_all_words_from_text.remove_double_words_from_txt_file import main_remove_doubles_words_in_txt_file
 from get_all_words_from_text.use_txt_file import add_word_to_txt, read_words_file, write_list_and_replace
 from pathlib import Path
 
@@ -47,14 +47,16 @@ if __name__ == '__main__':
     all_words = '/Users/evgenii/Documents/ANKI/TEXTS/words_to_learn_file-Full Dark, No Stars - FAIR EXTENSION.txt'
     easy_words_path = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
     words_from_file = read_words_file(all_words)
+    ic(len(words_from_file))
     some_random_words(words_from_file, 20)
 
     # new easy words added to test file, no good idea to optimise it
-    main_remove_doubles_in_easy_word(easy_words_path)
+    main_remove_doubles_words_in_txt_file(easy_words_path)
 
     # now remove easy words from words file
     # remove easy words from file
     easy_words = read_words_file(easy_words_path)
+
     cleared_words_list = remove_easy_words(words_from_file, easy_words)
     ic(len(cleared_words_list))
 
