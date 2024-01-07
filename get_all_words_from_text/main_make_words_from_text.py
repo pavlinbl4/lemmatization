@@ -6,9 +6,10 @@ from tkinter import filedialog
 
 from get_all_words_from_text.clear_list_of_words import remove_easy_words
 from get_all_words_from_text.file_name_from_path import file_name_with_ext
+from get_all_words_from_text.lemmatize_book import lemma_word_from_text_file
 from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_txt, create_file_if_no, \
     write_list_and_replace
-from lemmatize_book import lemma_word_from_text_file
+
 from pathlib import Path
 
 
@@ -46,16 +47,16 @@ def main():
     create_file_if_no(f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt')
 
     # all known words
-    easy_word = read_words_file(f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt')
+    easy_words = read_words_file(f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt')
 
     # number of easy words
-    easy_word_count = len(easy_word)
+    easy_word_count = len(easy_words)
     print(f'{easy_word_count = }')
 
     all_words = read_words_file(path_to_words_file)
 
     # remove easy words from file
-    cleared_words = remove_easy_words(all_words, easy_word)
+    cleared_words = remove_easy_words(all_words, easy_words)
 
     # overwrite words_to_learn file with clear words
     write_list_and_replace(cleared_words,
