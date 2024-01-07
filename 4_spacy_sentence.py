@@ -2,6 +2,7 @@ import spacy
 from icecream import ic
 from collections import Counter
 from pathlib import Path
+import pickle
 
 from get_all_words_from_text.clear_list_of_words import remove_easy_words
 from get_all_words_from_text.file_name_from_path import file_name_with_ext
@@ -80,6 +81,11 @@ def new_spacy_lemma(path_to_book_file):
 
     # load list of easy words from txt file
     easy_words = read_words_file(easy_words_path_to_txt)
+
+    # save doc in pickle file
+    path_to_pickle_file = f'{Path().home()}/Documents/ANKI/TEXTS/pickle-{book_title}.pickle'
+    with open(path_to_pickle_file, 'wb') as doc_data_file:
+        pickle.dump(doc, doc_data_file)
 
 
     # create list of words
