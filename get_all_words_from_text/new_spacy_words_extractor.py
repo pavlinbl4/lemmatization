@@ -3,6 +3,7 @@ from icecream import ic
 from collections import Counter
 from pathlib import Path
 import pickle
+import os.path
 
 from get_all_words_from_text.clear_list_of_words import remove_easy_words
 from get_all_words_from_text.file_name_from_path import file_name_with_ext
@@ -10,6 +11,27 @@ from get_all_words_from_text.main_make_words_from_text import create_words_to_le
 from get_all_words_from_text.remove_double_words_from_txt_file import main_remove_doubles_words_in_txt_file
 from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_txt, write_list_and_replace, \
     create_file_if_no
+
+
+def find_all_ents(path_to_text_file):
+    # read text file
+    with open(path_to_text_file, 'r') as txt:
+        text = txt.read()
+
+    # create doc object
+    nlp = spacy.load("en_core_web_sm")
+    doc = nlp(text)
+
+    for ent in doc.ents:
+        # if ent.label_ == 'CARDINAL':
+        # if ent.label_ == 'GPE': - filter this
+        # if ent.label_ == 'FAC': - filter this
+        # if ent.label_ == 'EVENT': - filter this
+        # if ent.label_ == 'DATE':   - filter this
+        print(ent.text)
+    ents = set([ent.label_ for ent in doc.ents])
+    ic(ents)
+    ic(type(ents))
 
 
 def get_sentence_from_text(path_to_text_file: str):
@@ -30,7 +52,6 @@ def get_sentence_from_text(path_to_text_file: str):
 
 
 def get_persons_from_text(path_to_text_file):
-
     # read text file
     with open(path_to_text_file, 'r') as txt:
         text = txt.read()
@@ -55,7 +76,7 @@ def get_persons_from_text(path_to_text_file):
             output_file.write(person + '\n')
 
 
-def new_spacy_lemma(path_to_book_file):
+def new_spacy_lemma():
     # select text file from gui
     path_to_book_file = select_file()
     # path_to_book_file = '/Users/evgenii/Documents/ANKI/TEXTS/Full Dark, No Stars - FAIR EXTENSION.txt'
@@ -84,9 +105,12 @@ def new_spacy_lemma(path_to_book_file):
 
     # save doc in pickle file
     path_to_pickle_file = f'{Path().home()}/Documents/ANKI/TEXTS/pickle-{book_title}.pickle'
-    with open(path_to_pickle_file, 'wb') as doc_data_file:
-        pickle.dump(doc, doc_data_file)
-
+    if os.path.isfile(path_to_pickle_file):
+        print(f"pickle-{book_title} file exist")
+    else:
+        with open(path_to_pickle_file, 'wb') as doc_data_file:
+            pickle.dump(doc, doc_data_file)
+        print(f'pickle-{book_title} created')
 
     # create list of words
     words = [f'{token.lemma_.lower()}' for token in doc
@@ -106,7 +130,6 @@ def new_spacy_lemma(path_to_book_file):
     #         print(word)
     #         add_word_to_txt(word, easy_words_path_to_txt)
 
-
     # may be this bloke not useful
     k = 10
     founded_words = []
@@ -118,7 +141,7 @@ def new_spacy_lemma(path_to_book_file):
     ic(founded_words)
     print(input('press any key'))
 
-        # write it to easy words file
+    # write it to easy words file
     for _ in founded_words:
         add_word_to_txt(_, easy_words_path_to_txt)
 
@@ -140,49 +163,8 @@ def new_spacy_lemma(path_to_book_file):
     # write_list_and_replace(cleared_words_list, all_words)
     write_list_and_replace(cleared_words_list, path_to_words_file)
 
-
-
-
-
-
-
-
-
     # words_more_10_times_in_text = [word for word, count in Counter(words).items() if count > 10]
 
 
-
-
-
-def find_all_ents(path_to_text_file):
-    # read text file
-    with open(path_to_text_file, 'r') as txt:
-        text = txt.read()
-
-    # create doc object
-    nlp = spacy.load("en_core_web_sm")
-    doc = nlp(text)
-
-    for ent in doc.ents:
-        # if ent.label_ == 'CARDINAL':
-        # if ent.label_ == 'GPE': - filter this
-        # if ent.label_ == 'FAC': - filter this
-        # if ent.label_ == 'EVENT': - filter this
-        # if ent.label_ == 'DATE':   - filter this
-        print(ent.text)
-    ents = set([ent.label_ for ent in doc.ents])
-    ic(ents)
-    ic(type(ents))
-
-
 if __name__ == '__main__':
-    _path_to_text_file = '/Users/evgenii/Documents/ANKI/TEXTS/Full Dark, No Stars - FAIR EXTENSION.txt'
-    # get sentence from text file
-    # get_sentence_from_text(_path_to_text_file)
-
-    # save persons from text to file
-    # get_persons_from_text(_path_to_text_file)
-
-    new_spacy_lemma(_path_to_text_file)
-
-    # find_all_ents(_path_to_text_file)
+    new_spacy_lemma()
