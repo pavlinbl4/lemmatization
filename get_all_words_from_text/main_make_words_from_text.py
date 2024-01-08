@@ -13,17 +13,14 @@ from get_all_words_from_text.use_txt_file import read_words_file, add_word_to_tx
 from pathlib import Path
 
 
-def create_words_to_learn_or_skip(book_title, path_to_book_file):
-    # check existing of the file words_to_learn-book_title.txt
-    # if no such file get lemma words from book if  words_to_learn-book_title.txt exist go to line
-    path_to_words_file = f'{Path().home()}/Documents/ANKI/TEXTS/words_to_learn_file-{book_title}'
+def create_words_to_learn_or_skip(book_title,  words):
+    path_to_words_file = f'{Path().home()}/Documents/ANKI/TEXTS/{book_title}/words_to_learn_file-{book_title}.txt'
     if Path(path_to_words_file).exists():
-        print("This book was processed later use words from file")
+        print(f"The book \"{book_title}\" was processed later")
     else:
-        lemma_words = lemma_word_from_text_file(path_to_book_file)  # get lemma words from book
-        for word in lemma_words:
+        for word in words:
             add_word_to_txt(word, path_to_words_file)  # save this collection for future use
-        print(f'file with word from {book_title} created')
+        print(f'file with word from \"{book_title}\" created')
     return path_to_words_file
 
 
