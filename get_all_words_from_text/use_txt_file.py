@@ -10,6 +10,7 @@ def create_file_if_no(path_to_txt):
     Path(path_to_txt).touch(exist_ok=True)
 
 
+
 def add_word_to_txt(input_data, path_to_txt: str):
     create_file_if_no(path_to_txt)
     with open(path_to_txt, 'a') as text_file:
@@ -23,5 +24,6 @@ def write_list_and_replace(input_list: list, path_to_txt):
 
 
 if __name__ == '__main__':
-    list_from_txt = read_words_file('easy_words copy.txt')
-    write_list_and_replace(list_from_txt, 'easy_words copy_to_delete.txt')
+    # list_from_txt = read_words_file('easy_words copy.txt')
+    # write_list_and_replace(list_from_txt, 'easy_words copy_to_delete.txt')
+    print(create_file_if_no(f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'))
