@@ -1,3 +1,6 @@
+import spacy
+
+
 def find_all_ents(path_to_text_file):
     # read text file
     with open(path_to_text_file, 'r') as txt:
