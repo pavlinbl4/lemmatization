@@ -24,6 +24,8 @@ def find_book_for_lemma():
 def new_spacy_lemma():
     # select text file from gui
     path_to_book_file, book_title = find_book_for_lemma()
+    ic(book_title)
+    ic(path_to_book_file)
 
     # check existing of the file easy_words.txt and create it if NO
     easy_words_path_to_txt = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
@@ -58,8 +60,8 @@ def new_spacy_lemma():
     cleared_words_list = set(words)
     # ic(Counter(optimised_words))
 
-    # make lemmatization from text or skip it
-    path_to_words_file = create_words_to_learn_or_skip(book_title, path_to_book_file, words)
+    # save lemma words to file
+    path_to_words_file = create_words_to_learn_or_skip(book_title, words)
 
     # write_list_and_replace(cleared_words_list, all_words)
     ic(path_to_words_file)
