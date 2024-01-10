@@ -4,7 +4,7 @@ import spacy
 import os
 
 
-def nlp_doc(book_title: str, text: str):
+def nlp_doc(book_title: str, text: str, language:str):
     # create sub folder to additional files
     os.makedirs(f'{Path().home()}/Documents/ANKI/TEXTS/{book_title}/', exist_ok=True)
 
@@ -17,7 +17,13 @@ def nlp_doc(book_title: str, text: str):
 
     else:
         # create doc container
-        nlp = spacy.load("en_core_web_sm")
+        assert isinstance(language, object)
+        if language == 'en':
+            nlp = spacy.load("en_core_web_sm")
+        elif language == 'ru':
+            nlp = spacy.load("ru_core_news_lg")
+
+
         doc = nlp(text)
 
         with open(path_to_pickle_file, 'wb') as doc_data_file:
