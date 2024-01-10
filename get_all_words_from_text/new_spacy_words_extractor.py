@@ -36,7 +36,7 @@ def new_spacy_lemma():
         text = txt.read()
 
     # create nlp doc file and save it to pickle file, if pickle file was created early - read data from pickle
-    doc = nlp_doc(book_title, text)
+    doc = nlp_doc(book_title, text, language='en')
 
     # create ent set
     ent_set = set([ent.text for ent in doc.ents])
@@ -59,6 +59,10 @@ def new_spacy_lemma():
     # remove doubles in words
     cleared_words_list = set(words)
     # ic(Counter(optimised_words))
+
+    for token in doc:
+        if token.lemma_ in cleared_words_list:
+            print(f'{token.lemma_}\n{token.sent}\n')
 
     # save lemma words to file
     path_to_words_file = create_words_to_learn_or_skip(book_title, words)
