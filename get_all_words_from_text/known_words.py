@@ -44,11 +44,11 @@ def some_random_words(cleared_words, value_to_test):  # test "value_to_test" wor
 
 
 if __name__ == '__main__':
-    all_words = '/Users/evgenii/Documents/ANKI/TEXTS/words_to_learn_file-Full Dark, No Stars - FAIR EXTENSION.txt'
+    all_words = '/Users/evgenii/Documents/ANKI/TEXTS/Full Dark, No Stars - FAIR EXTENSION/words_to_learn_file-Full Dark, No Stars - FAIR EXTENSION.txt'
     easy_words_path = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
     words_from_file = read_words_file(all_words)
     ic(len(words_from_file))
-    some_random_words(words_from_file, 20)
+    some_random_words(words_from_file, 100)
 
     # new easy words added to test file, no good idea to optimise it
     main_remove_doubles_words_in_txt_file(easy_words_path)
