@@ -28,7 +28,8 @@ def new_spacy_lemma():
     ic(path_to_book_file)
 
     # check existing of the file easy_words.txt and create it if NO
-    easy_words_path_to_txt = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
+    # easy_words_path_to_txt = f'{Path().home()}/Documents/ANKI/TEXTS/easy_words.txt'
+    easy_words_path_to_txt = f'{Path().home()}/Library/Mobile Documents/com~apple~CloudDocs/ANKI/TEXTS/easy_words.txt'
     create_file_if_no(easy_words_path_to_txt)
 
     # read text file
@@ -36,7 +37,7 @@ def new_spacy_lemma():
         text = txt.read()
 
     # create nlp doc file and save it to pickle file, if pickle file was created early - read data from pickle
-    doc = nlp_doc(book_title, text, language="en")
+    doc = nlp_doc(book_title, text, language='ru')
 
     # create ent set
     ent_set = set([ent.text for ent in doc.ents])
@@ -59,6 +60,10 @@ def new_spacy_lemma():
     # remove doubles in words
     cleared_words_list = set(words)
     # ic(Counter(optimised_words))
+
+    for token in doc:
+        if token.lemma_ in cleared_words_list:
+            print(f'{token.lemma_}\n{token.sent}\n')
 
     # save lemma words to file
     path_to_words_file = create_words_to_learn_or_skip(book_title, words)
