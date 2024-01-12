@@ -30,10 +30,10 @@ def nlp_doc(book_title: str, text: str):
 
         if language == 'en':
             nlp = spacy.load("en_core_web_trf")
-            print("English")
+            print("English text")
         else:
             nlp = spacy.load("ru_core_news_lg")
-            print("Russian")
+            print("Russian text")
 
 
         doc = nlp(text)
