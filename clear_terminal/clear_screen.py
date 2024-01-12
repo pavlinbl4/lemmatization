@@ -1,9 +1,9 @@
-# i want to ckear termonal after print something befor new input
+# i want to clear terminal after print something before new input
 import os
 
 
 def clear_term():
-    print("print someting")
+    print("print something")
     data = input("print something new\n")
     os.system('clear')
     print(data)
